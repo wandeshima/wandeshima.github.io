@@ -68,6 +68,73 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-MyBatis批量update字段不能为null" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/07/05/MyBatis%E6%89%B9%E9%87%8Fupdate%E5%AD%97%E6%AE%B5%E4%B8%8D%E8%83%BD%E4%B8%BAnull/" class="article-date">
+  <time datetime="2019-07-05T04:40:08.000Z" itemprop="datePublished">2019-07-05</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/07/05/MyBatis%E6%89%B9%E9%87%8Fupdate%E5%AD%97%E6%AE%B5%E4%B8%8D%E8%83%BD%E4%B8%BAnull/">MyBatis 批量 update，字段不能为 null</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>MyBatis Batch Update Exception: Column cannot be null  </p>
+<p><a href="https://stackoverflow.com/questions/32217568/mybatis-batch-update-exceptioncolumn-cannot-be-null" target="_blank" rel="noopener">https://stackoverflow.com/questions/32217568/mybatis-batch-update-exceptioncolumn-cannot-be-null</a></p>
+</blockquote>
+<p><img src="https://wandeshima.com/oldimg/uploads/2019/07/QQ%E6%88%AA%E5%9B%BE20190705123752-1024x726.png" alt=""></p>
+<p>加一句 else</p>
+<p><img src="https://wandeshima.com/oldimg/uploads/2019/07/QQ%E6%88%AA%E5%9B%BE20190705124347.png" alt=""></p>
+<p>为什么加</p>
+<update id="updateGoodsPackageByGoodsId" parameterType="java.util.List">
+        UPDATE base\_goods\_package
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="packageRate =CASE" suffix="ELSE packageRate END,"><foreach collection="list" item="item" index="index"><if test="item.packageRate != null and '' != item.packageRate">WHEN goodsId = #{item.goodsId} THEN #{item.packageRate} </if></foreach></trim>
+            <trim prefix="packageName =CASE" suffix="ELSE packageName END,"><foreach collection="list" item="item" index="index"><if test="item.packageName != null and '' != item.packageName">WHEN goodsId = #{item.goodsId} THEN #{item.packageName} </if></foreach></trim>
+            <trim prefix="boxLong =CASE" suffix="ELSE boxLong END,"><foreach collection="list" item="item" index="index"><if test="item.boxLong != null and '' != item.boxLong">WHEN goodsId = #{item.goodsId} THEN #{item.boxLong} </if></foreach></trim>
+            <trim prefix="boxWidth =CASE" suffix="ELSE boxWidth END,"><foreach collection="list" item="item" index="index"><if test="item.boxWidth != null and '' != item.boxWidth">WHEN goodsId = #{item.goodsId} THEN #{item.boxWidth} </if></foreach></trim>
+            <trim prefix="boxHeight =CASE" suffix="ELSE boxHeight END,"><foreach collection="list" item="item" index="index"><if test="item.boxHeight != null and '' != item.boxHeight">WHEN goodsId = #{item.goodsId} THEN #{item.boxHeight} </if></foreach></trim>
+            <trim prefix="boxWeight =CASE" suffix="ELSE boxWeight END,"><foreach collection="list" item="item" index="index"><if test="item.boxWeight != null and '' != item.boxWeight">WHEN goodsId = #{item.goodsId} THEN #{item.boxWeight} </if></foreach></trim>
+        </trim>
+        WHERE
+        <foreach collection="list" separator="OR" item="item" index="index">
+            goodsId = #{item.goodsId}
+        </foreach>
+    </update>
+
+<p>我错了：<br>参数类型为非字符串类型的时候<br>上面<if test="item.costPrice != null and '' != item.costPrice">像我这样写，假如costPrice是Integer，就完蛋了。<br>要么 item.costPrice.toString()，要么直接删掉写成<br><if test="item.costPrice != null"> 这样。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://wandeshima.github.io/2019/07/05/MyBatis%E6%89%B9%E9%87%8Fupdate%E5%AD%97%E6%AE%B5%E4%B8%8D%E8%83%BD%E4%B8%BAnull/" data-id="ck3hydoeq000lrg4t9pan8it7" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mybatis/" rel="tag">mybatis</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-mysql8_0到5_6" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/07/02/mysql8_0%E5%88%B05_6/" class="article-date">
@@ -99,7 +166,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wandeshima.github.io/2019/07/02/mysql8_0%E5%88%B05_6/" data-id="ck389yc0f000zo04tht1gagal" class="article-share-link">Share</a>
+      <a data-url="https://wandeshima.github.io/2019/07/02/mysql8_0%E5%88%B05_6/" data-id="ck3hydof00014rg4t9ldc0k9s" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li></ul>
@@ -148,7 +215,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wandeshima.github.io/2019/05/21/error-the-user-specified-as-a-definer-root-does-not-exist/" data-id="ck389yc06000jo04tgrtdcjqz" class="article-share-link">Share</a>
+      <a data-url="https://wandeshima.github.io/2019/05/21/error-the-user-specified-as-a-definer-root-does-not-exist/" data-id="ck3hydoex000yrg4thfnk0e72" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li></ul>
@@ -199,7 +266,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wandeshima.github.io/2019/03/23/string-2-samestarchar-%E4%B8%8D%E4%BC%9A%E5%81%9A/" data-id="ck389yc0d000wo04t54tqgf58" class="article-share-link">Share</a>
+      <a data-url="https://wandeshima.github.io/2019/03/23/string-2-samestarchar-%E4%B8%8D%E4%BC%9A%E5%81%9A/" data-id="ck3hydof20017rg4t0v3tb3fm" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/codingbat/" rel="tag">codingbat</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
@@ -258,7 +325,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wandeshima.github.io/2019/03/20/Windows10%E8%87%AA%E5%8A%A8%E6%9B%B4%E6%96%B0%E6%BB%9A/" data-id="ck389yc000009o04t7j37am4b" class="article-share-link">Share</a>
+      <a data-url="https://wandeshima.github.io/2019/03/20/Windows10%E8%87%AA%E5%8A%A8%E6%9B%B4%E6%96%B0%E6%BB%9A/" data-id="ck3hydoep000jrg4t7xdvabz9" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/windows10/" rel="tag">windows10</a></li></ul>
@@ -301,7 +368,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wandeshima.github.io/2019/03/13/%E5%AE%9E%E4%B9%A0%E5%BC%80%E5%A7%8B/" data-id="ck389yc0h0011o04tb0la08la" class="article-share-link">Share</a>
+      <a data-url="https://wandeshima.github.io/2019/03/13/%E5%AE%9E%E4%B9%A0%E5%BC%80%E5%A7%8B/" data-id="ck3hydof4001brg4t4p18h01y" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
@@ -358,7 +425,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wandeshima.github.io/2019/03/11/53.%E6%9C%80%E5%A4%A7%E5%AD%90%E5%BA%8F%E5%92%8C%E9%97%AE%E9%A2%98/" data-id="ck389ybzr0004o04tcvxxbkjq" class="article-share-link">Share</a>
+      <a data-url="https://wandeshima.github.io/2019/03/11/53.%E6%9C%80%E5%A4%A7%E5%AD%90%E5%BA%8F%E5%92%8C%E9%97%AE%E9%A2%98/" data-id="ck3hydoef0009rg4teco84pjg" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode/" rel="tag">leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li></ul>
@@ -414,7 +481,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wandeshima.github.io/2019/01/22/Manjaro%E5%AE%89%E8%A3%85%E7%BD%91%E6%98%93%E4%BA%91%E9%9F%B3%E4%B9%90/" data-id="ck389yc01000ao04t1uv732ce" class="article-share-link">Share</a>
+      <a data-url="https://wandeshima.github.io/2019/01/22/Manjaro%E5%AE%89%E8%A3%85%E7%BD%91%E6%98%93%E4%BA%91%E9%9F%B3%E4%B9%90/" data-id="ck3hydodp0002rg4t8y6sanuw" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/manjaro/" rel="tag">manjaro</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BD%91%E6%98%93%E4%BA%91%E9%9F%B3%E4%B9%90/" rel="tag">网易云音乐</a></li></ul>
@@ -474,7 +541,7 @@ sudo service transmission-daemon restart</code></p>
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wandeshima.github.io/2019/01/07/%E6%A0%91%E8%8E%93%E6%B4%BEbt%E4%B8%8B%E8%BD%BD%E6%9C%BA1%E5%8F%B7/" data-id="ck389yc0l001co04tdbh7gw85" class="article-share-link">Share</a>
+      <a data-url="https://wandeshima.github.io/2019/01/07/%E6%A0%91%E8%8E%93%E6%B4%BEbt%E4%B8%8B%E8%BD%BD%E6%9C%BA1%E5%8F%B7/" data-id="ck3hydof8001mrg4t1eon4uvj" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/bt/" rel="tag">bt</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" rel="tag">树莓派</a></li></ul>
@@ -520,70 +587,10 @@ sudo service transmission-daemon restart</code></p>
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wandeshima.github.io/2018/12/31/Coldbox%E4%B8%BB%E9%A2%98post-content%E5%BC%BA%E5%88%B6%E6%8D%A2%E8%A1%8C/" data-id="ck389ybzc0000o04th2ygau48" class="article-share-link">Share</a>
+      <a data-url="https://wandeshima.github.io/2018/12/31/Coldbox%E4%B8%BB%E9%A2%98post-content%E5%BC%BA%E5%88%B6%E6%8D%A2%E8%A1%8C/" data-id="ck3hydoek000drg4th2vzh40h" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/coldbox/" rel="tag">coldbox</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/" rel="tag">css</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/wordpress/" rel="tag">wordpress</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-WordPress部署https后登陆不了后台" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/12/29/WordPress%E9%83%A8%E7%BD%B2https%E5%90%8E%E7%99%BB%E9%99%86%E4%B8%8D%E4%BA%86%E5%90%8E%E5%8F%B0/" class="article-date">
-  <time datetime="2018-12-29T15:53:05.000Z" itemprop="datePublished">2018-12-29</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/12/29/WordPress%E9%83%A8%E7%BD%B2https%E5%90%8E%E7%99%BB%E9%99%86%E4%B8%8D%E4%BA%86%E5%90%8E%E5%8F%B0/">WordPress部署https后登陆不了后台</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>WordPress折腾坏了之后后台都登不上去了。</p>
-<h2 id="补救步骤："><a href="#补救步骤：" class="headerlink" title="补救步骤："></a>补救步骤：</h2><p>首先：</p>
-<blockquote>
-<p><a href="http://www.seo628.com/3480.html" target="_blank" rel="noopener">http://www.seo628.com/3480.html</a> <a href="https://www.luoyechenfei.com/html/2643.html" target="_blank" rel="noopener">https://www.luoyechenfei.com/html/2643.html</a></p>
-</blockquote>
-<p>通过FTP登录网站根目录，修改<code>wp-config.php</code>。 在<code>wp-config.php</code>文件<code>require_once(ABSPATH . &#39;wp-settings.php&#39;);</code>之前，添加以下四个语句：</p>
-<p>define(‘FORCE_SSL_ADMIN’, true);<br>define(‘FORCE_SSL_LOGIN’, true);<br>$_SERVER[‘HTTPS’] = ‘ON’;<br>define( ‘CONCATENATE_SCRIPTS’, false );</p>
-<p>然后： 打开 <code>/oldimg/plugins</code> 目录，找到SSL相关设置插件，先将其删除，我用的是 <code>really-simple-ssl</code> ，如果你是用的是其他SSL设置插件，也可以先将它删除。</p>
-<blockquote>
-<p>参考  <a href="https://waizhuti.53431.com/1547.html" target="_blank" rel="noopener">https://waizhuti.53431.com/1547.html</a></p>
-</blockquote>
-<p>最后: 整数据库。</p>
-<p>UPDATE wp_posts SET post_content = replace(post_content,’<a href="https://www.你的域名.com&#39;,&#39;http://www.你的域名.com&#39;" target="_blank" rel="noopener">https://www.你的域名.com&#39;,&#39;http://www.你的域名.com&#39;</a>);<br>UPDATE wp_options SET option_value = replace(option_value, ‘https://你的域名.com’, ‘http://你的域名.com’) WHERE option_name = ‘home’ OR option_name = ‘siteurl’;</p>
-<p>上面的设置都设置完成之后，打开浏览器，以 <code>http://</code>的方式输入你网站后台管理网址，你应该可以看到熟悉的管理界面了。</p>
-<h2 id="然后是整阿里云CDN啥的。"><a href="#然后是整阿里云CDN啥的。" class="headerlink" title="然后是整阿里云CDN啥的。"></a>然后是整阿里云CDN啥的。</h2><blockquote>
-<p><a href="https://yq.aliyun.com/articles/613501" target="_blank" rel="noopener">https://yq.aliyun.com/articles/613501</a></p>
-</blockquote>
-<p>为了整CNAME把域名邮箱都整没了。。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://wandeshima.github.io/2018/12/29/WordPress%E9%83%A8%E7%BD%B2https%E5%90%8E%E7%99%BB%E9%99%86%E4%B8%8D%E4%BA%86%E5%90%8E%E5%8F%B0/" data-id="ck389yc0c000to04t4z7x3owf" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/https/" rel="tag">https</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ssl/" rel="tag">ssl</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/wordpress/" rel="tag">wordpress</a></li></ul>
 
     </footer>
   </div>
@@ -617,7 +624,7 @@ sudo service transmission-daemon restart</code></p>
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/MIDI/" rel="tag">MIDI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/bat/" rel="tag">bat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/batch/" rel="tag">batch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/bt/" rel="tag">bt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/codingbat/" rel="tag">codingbat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/coldbox/" rel="tag">coldbox</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/" rel="tag">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo-theme-primer/" rel="tag">hexo-theme-primer</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/https/" rel="tag">https</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode/" rel="tag">leetcode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/manjaro/" rel="tag">manjaro</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mediacoder/" rel="tag">mediacoder</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/" rel="tag">mybatis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/postman/" rel="tag">postman</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ssl/" rel="tag">ssl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/utf-8/" rel="tag">utf-8</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows10/" rel="tag">windows10</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wordpress/" rel="tag">wordpress</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%89%92%E8%B0%B1/" rel="tag">扒谱</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" rel="tag">树莓派</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%99%BD%E6%98%A0/" rel="tag">白映</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E6%98%93%E4%BA%91%E9%9F%B3%E4%B9%90/" rel="tag">网易云音乐</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%AD%E6%96%87/" rel="tag">语文</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/MIDI/" rel="tag">MIDI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/bat/" rel="tag">bat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/batch/" rel="tag">batch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/bt/" rel="tag">bt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/codingbat/" rel="tag">codingbat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/coldbox/" rel="tag">coldbox</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/" rel="tag">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo-theme-primer/" rel="tag">hexo-theme-primer</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/https/" rel="tag">https</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode/" rel="tag">leetcode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/manjaro/" rel="tag">manjaro</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mediacoder/" rel="tag">mediacoder</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/" rel="tag">mybatis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/postman/" rel="tag">postman</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ssl/" rel="tag">ssl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/utf-8/" rel="tag">utf-8</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows10/" rel="tag">windows10</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wordpress/" rel="tag">wordpress</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%87%E6%A1%88/" rel="tag">备案</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%89%92%E8%B0%B1/" rel="tag">扒谱</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" rel="tag">树莓派</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%99%BD%E6%98%A0/" rel="tag">白映</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E6%98%93%E4%BA%91%E9%9F%B3%E4%B9%90/" rel="tag">网易云音乐</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%AD%E6%96%87/" rel="tag">语文</a></li></ul>
     </div>
   </div>
 
@@ -627,7 +634,7 @@ sudo service transmission-daemon restart</code></p>
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/MIDI/" style="font-size: 10px;">MIDI</a> <a href="/tags/bat/" style="font-size: 10px;">bat</a> <a href="/tags/batch/" style="font-size: 10px;">batch</a> <a href="/tags/bt/" style="font-size: 10px;">bt</a> <a href="/tags/codingbat/" style="font-size: 10px;">codingbat</a> <a href="/tags/coldbox/" style="font-size: 10px;">coldbox</a> <a href="/tags/css/" style="font-size: 10px;">css</a> <a href="/tags/hexo-theme-primer/" style="font-size: 10px;">hexo-theme-primer</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/leetcode/" style="font-size: 10px;">leetcode</a> <a href="/tags/manjaro/" style="font-size: 10px;">manjaro</a> <a href="/tags/mediacoder/" style="font-size: 10px;">mediacoder</a> <a href="/tags/mybatis/" style="font-size: 10px;">mybatis</a> <a href="/tags/mysql/" style="font-size: 20px;">mysql</a> <a href="/tags/postman/" style="font-size: 15px;">postman</a> <a href="/tags/python/" style="font-size: 15px;">python</a> <a href="/tags/ssl/" style="font-size: 10px;">ssl</a> <a href="/tags/utf-8/" style="font-size: 10px;">utf-8</a> <a href="/tags/windows10/" style="font-size: 10px;">windows10</a> <a href="/tags/wordpress/" style="font-size: 15px;">wordpress</a> <a href="/tags/%E6%89%92%E8%B0%B1/" style="font-size: 10px;">扒谱</a> <a href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" style="font-size: 15px;">树莓派</a> <a href="/tags/%E7%99%BD%E6%98%A0/" style="font-size: 10px;">白映</a> <a href="/tags/%E7%BD%91%E6%98%93%E4%BA%91%E9%9F%B3%E4%B9%90/" style="font-size: 10px;">网易云音乐</a> <a href="/tags/%E8%AF%AD%E6%96%87/" style="font-size: 10px;">语文</a>
+      <a href="/tags/MIDI/" style="font-size: 10px;">MIDI</a> <a href="/tags/bat/" style="font-size: 10px;">bat</a> <a href="/tags/batch/" style="font-size: 10px;">batch</a> <a href="/tags/bt/" style="font-size: 10px;">bt</a> <a href="/tags/codingbat/" style="font-size: 10px;">codingbat</a> <a href="/tags/coldbox/" style="font-size: 10px;">coldbox</a> <a href="/tags/css/" style="font-size: 10px;">css</a> <a href="/tags/hexo-theme-primer/" style="font-size: 10px;">hexo-theme-primer</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/leetcode/" style="font-size: 10px;">leetcode</a> <a href="/tags/manjaro/" style="font-size: 10px;">manjaro</a> <a href="/tags/mediacoder/" style="font-size: 10px;">mediacoder</a> <a href="/tags/mybatis/" style="font-size: 10px;">mybatis</a> <a href="/tags/mysql/" style="font-size: 20px;">mysql</a> <a href="/tags/postman/" style="font-size: 15px;">postman</a> <a href="/tags/python/" style="font-size: 15px;">python</a> <a href="/tags/ssl/" style="font-size: 10px;">ssl</a> <a href="/tags/utf-8/" style="font-size: 10px;">utf-8</a> <a href="/tags/windows10/" style="font-size: 10px;">windows10</a> <a href="/tags/wordpress/" style="font-size: 15px;">wordpress</a> <a href="/tags/%E5%A4%87%E6%A1%88/" style="font-size: 10px;">备案</a> <a href="/tags/%E6%89%92%E8%B0%B1/" style="font-size: 10px;">扒谱</a> <a href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" style="font-size: 15px;">树莓派</a> <a href="/tags/%E7%99%BD%E6%98%A0/" style="font-size: 10px;">白映</a> <a href="/tags/%E7%BD%91%E6%98%93%E4%BA%91%E9%9F%B3%E4%B9%90/" style="font-size: 10px;">网易云音乐</a> <a href="/tags/%E8%AF%AD%E6%96%87/" style="font-size: 10px;">语文</a>
     </div>
   </div>
 
@@ -649,6 +656,10 @@ sudo service transmission-daemon restart</code></p>
       <ul>
         
           <li>
+            <a href="/2019/11/28/safema/">安全评估失败</a>
+          </li>
+        
+          <li>
             <a href="/2019/11/17/hello-world/">Hello World</a>
           </li>
         
@@ -662,10 +673,6 @@ sudo service transmission-daemon restart</code></p>
         
           <li>
             <a href="/2019/08/30/%E8%AF%95%E8%AF%95/">试试试试</a>
-          </li>
-        
-          <li>
-            <a href="/2019/08/29/2011%E7%89%88%E8%AF%BE%E6%A0%87%E8%83%8C%E8%AF%B5%E6%8E%A8%E8%8D%90/">2011版课标背诵推荐</a>
           </li>
         
       </ul>
