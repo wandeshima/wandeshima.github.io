@@ -68,6 +68,54 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-java-list-add-unsupportedoperationexception" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/02/java-list-add-unsupportedoperationexception/" class="article-date">
+  <time datetime="2019-08-02T02:38:04.000Z" itemprop="datePublished">2019-08-02</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/02/java-list-add-unsupportedoperationexception/">Java List.add() UnsupportedOperationException</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>八年前。  </p>
+<blockquote>
+<p><strong>Java List.add() UnsupportedOperationException</strong></p>
+<p>______<br>Not every <a href="http://download.oracle.com/javase/6/docs/api/java/util/List.html" target="_blank" rel="noopener"><code>List</code></a> implementation supports the <code>add()</code> method.<br>One common example is the <code>List</code> returned by <a href="http://download.oracle.com/javase/6/docs/api/java/util/Arrays.html#asList%28T...%29" target="_blank" rel="noopener"><code>Arrays.asList()</code></a>: it is documented <strong>not</strong> to support any structural modification (i.e. removing or adding elements) (emphasis mine):<br>Returns a <strong>fixed-size</strong> list backed by the specified array.<br>Even if that’s not the specific <code>List</code> you’re trying to modify, the answer still applies to other <code>List</code>implementations that are either immutable or only allow some selected changes.<br>You can find out about this by reading the documentation of <a href="http://download.oracle.com/javase/6/docs/api/java/lang/UnsupportedOperationException.html" target="_blank" rel="noopener"><code>UnsupportedOperationException</code></a> and <a href="http://download.oracle.com/javase/6/docs/api/java/util/List.html#add%28E%29" target="_blank" rel="noopener"><code>List.add()</code></a>, which documents this to be an “(optional operation)”. The precise meaning of this phrase is explained at the top of the <code>List</code> documentation.<br>As a workaround you can create a copy of the list to a known-modifiable implementation like <code>ArrayList</code>:<br><code>seeAlso = new ArrayList&lt;&gt;(seeAlso);</code></p>
+<p><a href="https://stackoverflow.com/questions/5755477/java-list-add-unsupportedoperationexception" target="_blank" rel="noopener">https://stackoverflow.com/questions/5755477/java-list-add-unsupportedoperationexception</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://wandeshima.github.io/2019/08/02/java-list-add-unsupportedoperationexception/" data-id="ck3tsqbmr000ob84tg6cx2q3r" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-测试" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/07/23/%E6%B5%8B%E8%AF%95/" class="article-date">
@@ -535,66 +583,6 @@
 
 
   
-    <article id="post-树莓派bt下载机1号" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/01/07/%E6%A0%91%E8%8E%93%E6%B4%BEbt%E4%B8%8B%E8%BD%BD%E6%9C%BA1%E5%8F%B7/" class="article-date">
-  <time datetime="2019-01-06T16:09:22.000Z" itemprop="datePublished">2019-01-07</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/01/07/%E6%A0%91%E8%8E%93%E6%B4%BEbt%E4%B8%8B%E8%BD%BD%E6%9C%BA1%E5%8F%B7/">树莓派bt下载机1号</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>在树莓派上安装Transmission。</p>
-<p><code>sudo apt-get install transmission-daemon</code></p>
-<p>停止Transmission服务。</p>
-<p><code>sudo service transmission-daemon stop</code></p>
-<p>编辑Transmission配置文件， 更改配置。</p>
-<p>进入Transmission配置文件夹。</p>
-<p><code>cd /etc/transmission-daemon/</code></p>
-<p><code>sudo nano settings.json</code></p>
-<p>修改<code>&quot;rpc-whitelist&quot;: &quot;127.0.0.1&quot;,</code>为<code>&quot;rpc-whitelist&quot;: &quot;192.168.1.*&quot;,</code>（意思是允许192.168.1.这个网段的设备访问Transmission）。</p>
-<p>重载</p>
-<p><code>sudo service transmission-daemon reload  
-sudo service transmission-daemon restart</code></p>
-<p>在电脑浏览器输入“<a href="http://192.168.1.3:9091/”，登录Transmission界面，用户名和密码都是：transmission。" target="_blank" rel="noopener">http://192.168.1.3:9091/”，登录Transmission界面，用户名和密码都是：transmission。</a></p>
-<p><a href="https://post.smzdm.com/p/35508/" target="_blank" rel="noopener">https://post.smzdm.com/p/35508/</a></p>
-</blockquote>
-<p>做手工真有意思。线实在是塞不进去了。<br>纸盒糊的，散热堪忧，空闲46℃，不知硬盘能撑几天。<br>移动硬盘分区需要ext4，而且貌似分区容量超过1T的话，minitool会报错。最后格了很久。</p>
-<p>配方：手机充电器，双公头USB线，USB分线器，移动硬盘，树莓派。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://wandeshima.github.io/2019/01/07/%E6%A0%91%E8%8E%93%E6%B4%BEbt%E4%B8%8B%E8%BD%BD%E6%9C%BA1%E5%8F%B7/" data-id="ck3tsqbn5001kb84t6nsa6fjc" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/bt/" rel="tag">bt</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" rel="tag">树莓派</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
 
 
   <nav id="page-nav">
@@ -652,6 +640,10 @@ sudo service transmission-daemon restart</code></p>
       <ul>
         
           <li>
+            <a href="/2019/12/09/javacolor/">java控制台颜色</a>
+          </li>
+        
+          <li>
             <a href="/2019/12/06/timeperiod/">时间区间</a>
           </li>
         
@@ -665,10 +657,6 @@ sudo service transmission-daemon restart</code></p>
         
           <li>
             <a href="/2019/09/06/postman%E7%94%A8globals%E5%B0%81%E8%A3%85%E8%87%AA%E5%AE%9A%E4%B9%89%E5%87%BD%E6%95%B0/">postman用globals封装自定义函数</a>
-          </li>
-        
-          <li>
-            <a href="/2019/09/01/wenti1/">primer主题bug</a>
           </li>
         
       </ul>
