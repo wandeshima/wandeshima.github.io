@@ -1,0 +1,522 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="./LodopFuncs.js"></script>
+    <title>Document</title>
+</head>
+<body>
+<button id="design" >设计</button>
+<button id="view">打印预览</button>
+
+
+</body>
+</html>
+< script >
+document.getElementById('design').onclick = prn2_setup;
+document.getElementById('view').onclick = print;
+function print() {
+    var LODOP = getLodop();
+
+    // 顺丰logo
+    var sflogo = "<img src='data:img/jpg;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAABICAMAAACENkp0AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJ\r\nbWFnZVJlYWR5ccllPAAAAAxQTFRFMzMz/wAAAAAAAAAALV3LDwAAAAR0Uk5T////AEAqqfQAAASG\r\nSURBVHja3JvrgtsqDIQn4v3fud0kxkKaEcRxz7HXP9oswTYf6IZE0MrL+gW0S19yeICR67o4fGAU\r\nosPcBQQlxlXXBR8txoWXBYcwLogCYaRWrsuC2MfXXUDgtRr3AWlzHcBlZQt8nIUm43/U9r+eYTT9\r\newP6YrhRzp7nOsXOcck8sm8aHBKIHBDpiFMI//0OIkamViXcJmVvh95emdUMedBEGau7OshBUUFa\r\nvwSC9CGPkZmQulN80waCg7qbdQV8IuH6ZtPHXG1sQR8xPBheDRvIQStEboNAc3Nl6ZOp78ScwWID\r\nXiA4Zk+Z+cogjc41fO8oUUzY0/hCw7iMx0CsBgGT/kE3FYhVUhwacHxBdpIaJAJ/AeKfHBo8CA4Z\r\nrfFGBtLGbpVoQYKk2Q7TAzWxP7YAfOCAXhKwEAbDn9FbOBBwrxEaiDt8gkC8d5hs0N1IVncKMspz\r\nHjZmfiQmQojuIY+mGrFwrksgIshGBIEASSQtOMTwWpv72dz+sWhJJ82mEwuKkkDsBJAFZR/lm8AL\r\nM5pEYAeBErwVENA5WzC/JIwdAyXlD0Dt5I8Bom9xnVgwAoT+ayAoTd14s3RsoJ7ROIjfuYjo0LgB\r\nrkMU+ooYGB8C2VcEKp6tmldAvNxgAoIRF3nidt+D8HyqiWK8hXNfDOMnIC2Gln47AgwG8N3QlR3n\r\ngGC6sbL0gYCAe3Yjti58D+5FsArSZiA5fK9Amtg1Zr8St8dAtlPS8BwAQTTVExDQnT1IggICLNsY\r\nAfL4e1Xa7q/3n/6rrUdI8/SW4cb9OcyQACylwopUDOTxGEmuktImmyqTWabOcQ+QJkO4HeRxC5C0\r\nabnrisj4qAD5PCm2cA8+eGw0v8JnB2UvzW/PvNZ5+29B4h5PgvQdevQjj4kfeebPjoLAeXg8g8Ec\r\nI9IdHIoUCqyIj3SI8hzi/roEkLLN0dCobWp/IUhOG5W2fgDShhXpIDITIytfOhscSWKh5zsQK0De\r\nYoFpBc+EyEHNXQVie3r4LBAx5WliQYpoVRWQnlfIO8RDIKArUtYja6s1K7qmJY3JB1L9qkAwARGK\r\nUlgtGKwCeUeRBKSxzADCGGcT0xTIyxSvg+xRfNcRo1Lyg9NVEDlBV+avDoFYBCnPgrjtyPsfmBD3\r\nEZFPvUhgLqTjvwXZhLvSETe7YCBGrePCVv5ckDYFcd5/N3q5rACrwvhZpWcBZGa1wl5W3tn/gyr0\r\nyOr9QhHxRBBpunsUA/ccfBOK89LbSSDaCW02AN7R/4Ni6CkgW3ayKR1J+bPzy9M1yJYYsd0JjHFR\r\nB8FrxOBWizjEsw8MOJBnMbKphAC3Sq+BmzNPBAQ+XfRPjnDYe+Dy1I0tRL/OgK6k4xva6YdqMAaf\r\nKBITVdWgK/LCDqiNIfRnx5yay640CdL3q+vKbptuSJ9JN16vGmLeCX+wEEly2gCCGEnMQaDjC+82\r\nFEiInf6Do4AQ+yOeQ84FH4w99GGrGx/OJKet/Zrivud+73qA+dccKW+/55B/+zU/u1hkade7fvNP\r\nk0qYdtULi3Ug2MV/vvdHgAEAX4qP6lIQJP8AAAAASUVORK5CYII='/>"
+        // 快递单号 显示方式 XXX XXX XXX XXX
+        var expressWayBillNo = '580380776093';
+    // 寄件人
+    var sendName = '王诛魔';
+    // 寄件人电话
+    var sendMobilePhone = '15965456895';
+    // 寄件人地址
+    var sendAddress = '琅琊区飞虎路断罪中学';
+    // 收件人姓名
+    var receiveName = '李杀神';
+    // 收件人电话
+    var receiveMobilePhone = '13955555555';
+    // 收件人详细地址
+    var receiveAddress = '琅琊区飞虎路断罪小学';
+    // 托寄物信息
+    var orderItemInfo = '一条大河波浪宽，风吹稻花香两岸，我家就在岸上住';
+    // 业务类型
+    var serviceType = '电商特惠';
+    // 件数
+    var packageNum = 1;
+    // 托寄物数量
+    var itemNum = 10;
+    // 实际重量
+    var actualWeight = '2.8';
+    // 计费重量
+    var billedWeight = '2.8';
+    // 运费
+    var freightCharges = '27.0';
+    // 费用合计
+    var sumCharges = '28.0';
+    // 付款方式
+    var paymentType = '寄付';
+    // 月结卡号
+    var monthCard = '0224034269'
+        // 第三方地区
+        var thirdPartyZone = '巴布亚新几内亚';
+    // 收件员
+    var collector = '王收件';
+    // 寄件日期
+    var collectDate = '2000-01-01 11:11';
+    // 派件员
+    var deliverer = '刘派件';
+    // 派件日期
+    var deliverDate = '2019-07-31 12:12';
+    // 备注栏信息
+    var remarks = '要香菜，不要辣椒';
+    // 附加服务
+    var additionalService = "航母打蜡，卫星抛光，维修核潜艇"
+
+        LODOP.PRINT_INITA(6, 6, 800, 570, "顺丰热敏");
+    LODOP.SET_PRINT_MODE("PRINT_SETUP_PROGRAM", true);
+    LODOP.ADD_PRINT_IMAGE(11, 11, 185, 48, sflogo);
+    LODOP.SET_PRINT_STYLEA(0, "Stretch", 2);
+    LODOP.ADD_PRINT_BARCODE(7, 147, 220, 32, "128A", expressWayBillNo);
+    LODOP.SET_PRINT_STYLEA(0, "ShowBarText", 0);
+    LODOP.ADD_PRINT_TEXT(41, 148, 205, 20, expressWayBillNo);
+    LODOP.SET_PRINT_STYLEA(0, "FontName", "黑体");
+    LODOP.SET_PRINT_STYLEA(0, "FontSize", 12);
+    LODOP.SET_PRINT_STYLEA(0, "Alignment", 2);
+
+    LODOP.ADD_PRINT_TEXT(63, 2, 50, 25, "寄方：");
+    LODOP.ADD_PRINT_TEXT(63, 42, 208, 25, sendAddress + " " + sendName + " " + sendMobilePhone);
+    LODOP.SET_PRINT_STYLEA(0, "LineSpacing", -5);
+    LODOP.ADD_PRINT_TEXT(90, 2, 50, 25, "收方：");
+    LODOP.ADD_PRINT_TEXT(90, 42, 80, 25, receiveName);
+    LODOP.ADD_PRINT_TEXT(90, 127, 123, 25, receiveMobilePhone);
+    LODOP.ADD_PRINT_TEXT(106, 2, 248, 32, receiveAddress);
+    LODOP.ADD_PRINT_TEXT(141, 2, 120, 25, "托寄物信息");
+    LODOP.ADD_PRINT_TEXT(156, 2, 248, 40, orderItemInfo);
+
+    LODOP.ADD_PRINT_TEXT(63, 256, 46, 25, "原寄地");
+    LODOP.ADD_PRINT_TEXT(63, 297, 73, 25, "022");
+    LODOP.SET_PRINT_STYLEA(0, "FontName", "黑体");
+    LODOP.SET_PRINT_STYLEA(0, "FontSize", 16);
+    LODOP.ADD_PRINT_TEXT(90, 256, 114, 25, "目的地");
+    LODOP.ADD_PRINT_TEXT(101, 256, 114, 38, "750");
+    LODOP.SET_PRINT_STYLEA(0, "FontName", "黑体");
+    LODOP.SET_PRINT_STYLEA(0, "FontSize", 24);
+    LODOP.ADD_PRINT_TEXT(141, 256, 114, 25, "业务类型");
+    LODOP.ADD_PRINT_TEXT(156, 256, 114, 40, serviceType);
+    LODOP.SET_PRINT_STYLEA(0, "FontSize", 18);
+
+    LODOP.ADD_PRINT_TEXT(198, 2, 40, 19, "件数");
+    LODOP.SET_PRINT_STYLEA(0, "Alignment", 2);
+    LODOP.ADD_PRINT_TEXT(198, 43, 80, 19, "托寄物数量");
+    LODOP.SET_PRINT_STYLEA(0, "Alignment", 2);
+    LODOP.ADD_PRINT_TEXT(198, 125, 63, 19, "实际重量");
+    LODOP.SET_PRINT_STYLEA(0, "Alignment", 2);
+    LODOP.ADD_PRINT_TEXT(198, 190, 60, 19, "计费重量");
+    LODOP.SET_PRINT_STYLEA(0, "Alignment", 2);
+    LODOP.ADD_PRINT_TEXT(198, 253, 60, 19, "运费");
+    LODOP.SET_PRINT_STYLEA(0, "Alignment", 2);
+    LODOP.ADD_PRINT_TEXT(198, 315, 55, 19, "合计");
+    LODOP.SET_PRINT_STYLEA(0, "Alignment", 2);
+
+    LODOP.ADD_PRINT_TEXT(219, 2, 40, 25, packageNum);
+    LODOP.SET_PRINT_STYLEA(0, "Alignment", 2);
+    LODOP.ADD_PRINT_TEXT(219, 43, 80, 25, itemNum);
+    LODOP.SET_PRINT_STYLEA(0, "Alignment", 2);
+    LODOP.ADD_PRINT_TEXT(219, 125, 63, 25, actualWeight);
+    LODOP.SET_PRINT_STYLEA(0, "Alignment", 2);
+    LODOP.ADD_PRINT_TEXT(219, 190, 60, 25, billedWeight);
+    LODOP.SET_PRINT_STYLEA(0, "Alignment", 2);
+    LODOP.ADD_PRINT_TEXT(219, 253, 60, 25, freightCharges);
+    LODOP.SET_PRINT_STYLEA(0, "Alignment", 2);
+    LODOP.ADD_PRINT_TEXT(219, 315, 55, 25, sumCharges);
+    LODOP.SET_PRINT_STYLEA(0, "Alignment", 2);
+
+    LODOP.ADD_PRINT_TEXT(245, 2, 60, 25, "付款方式");
+    LODOP.ADD_PRINT_TEXT(245, 58, 50, 25, paymentType);
+    LODOP.ADD_PRINT_TEXT(245, 106, 76, 25, monthCard);
+    LODOP.ADD_PRINT_TEXT(261, 2, 100, 20, "第三方地区：");
+    LODOP.ADD_PRINT_TEXT(262, 68, 114, 20, thirdPartyZone);
+    LODOP.ADD_PRINT_TEXT(283, 2, 80, 25, "附加服务：");
+    LODOP.ADD_PRINT_TEXT(301, 2, 180, 89, additionalService);
+
+    LODOP.ADD_PRINT_TEXT(245, 186, 80, 25, "寄方签名：");
+    LODOP.ADD_PRINT_TEXT(245, 290, 80, 25, "收件员：");
+    LODOP.ADD_PRINT_TEXT(260, 290, 80, 25, collector);
+    LODOP.ADD_PRINT_TEXT(283, 186, 80, 15, "寄件日期：");
+    LODOP.ADD_PRINT_TEXT(283, 250, 120, 15, collectDate);
+    LODOP.ADD_PRINT_TEXT(299, 186, 80, 25, "收方签名：");
+    LODOP.ADD_PRINT_TEXT(299, 290, 80, 25, "派件员：");
+    LODOP.ADD_PRINT_TEXT(314, 290, 80, 25, deliverer);
+    LODOP.ADD_PRINT_TEXT(336, 186, 80, 15, "派件日期：");
+    LODOP.ADD_PRINT_TEXT(336, 250, 120, 15, deliverDate);
+    LODOP.ADD_PRINT_TEXT(352, 186, 80, 25, "备注栏：");
+    LODOP.ADD_PRINT_TEXT(366, 186, 184, 24, remarks);
+
+    LODOP.ADD_PRINT_TEXT(397, 2, 50, 25, "寄方：");
+    LODOP.ADD_PRINT_TEXT(397, 39, 330, 36, sendAddress + " " + sendName + " " + sendMobilePhone);
+    LODOP.SET_PRINT_STYLEA(0, "LineSpacing", -5);
+    LODOP.ADD_PRINT_TEXT(437, 2, 50, 25, "收方：");
+    LODOP.ADD_PRINT_TEXT(437, 39, 72, 25, receiveName);
+    LODOP.ADD_PRINT_TEXT(437, 130, 116, 25, receiveMobilePhone);
+    LODOP.ADD_PRINT_TEXT(452, 2, 367, 20, receiveAddress);
+    LODOP.ADD_PRINT_BARCODE(480, 20, 220, 26, "128A", expressWayBillNo);
+    LODOP.SET_PRINT_STYLEA(0, "ShowBarText", 0);
+    LODOP.ADD_PRINT_TEXT(508, 19, 205, 20, expressWayBillNo);
+    LODOP.SET_PRINT_STYLEA(0, "FontName", "黑体");
+    LODOP.SET_PRINT_STYLEA(0, "FontSize", 12);
+    LODOP.SET_PRINT_STYLEA(0, "Alignment", 2);
+    LODOP.ADD_PRINT_TEXT(474, 253, 80, 25, "费用合计：");
+    LODOP.ADD_PRINT_TEXT(474, 311, 58, 25, sumCharges);
+    LODOP.ADD_PRINT_TEXT(504, 253, 75, 23, "付款方式：");
+    LODOP.ADD_PRINT_TEXT(504, 311, 59, 23, paymentType);
+
+    LODOP.ADD_PRINT_RECT(0, -3, 135, 60, 0, 1);
+    LODOP.ADD_PRINT_RECT(0, 131, 239, 60, 0, 1);
+    LODOP.ADD_PRINT_RECT(59, -3, 255, 28, 0, 1);
+    LODOP.ADD_PRINT_RECT(59, 251, 119, 28, 0, 1);
+    LODOP.ADD_PRINT_RECT(86, -3, 255, 52, 0, 1);
+    LODOP.ADD_PRINT_RECT(86, 251, 119, 52, 0, 1);
+    LODOP.ADD_PRINT_RECT(137, -3, 255, 58, 0, 1);
+    LODOP.ADD_PRINT_RECT(137, 251, 119, 58, 0, 1);
+    LODOP.ADD_PRINT_RECT(194, -3, 46, 20, 0, 1);
+    LODOP.ADD_PRINT_RECT(194, 42, 83, 20, 0, 1);
+    LODOP.ADD_PRINT_RECT(194, 124, 66, 20, 0, 1);
+    LODOP.ADD_PRINT_RECT(194, 189, 63, 20, 0, 1);
+    LODOP.ADD_PRINT_RECT(194, 251, 64, 20, 0, 1);
+    LODOP.ADD_PRINT_RECT(194, 314, 56, 20, 0, 1);
+    LODOP.ADD_PRINT_RECT(213, -3, 46, 29, 0, 1);
+    LODOP.ADD_PRINT_RECT(213, 42, 83, 29, 0, 1);
+    LODOP.ADD_PRINT_RECT(213, 124, 66, 29, 0, 1);
+    LODOP.ADD_PRINT_RECT(213, 189, 63, 29, 0, 1);
+    LODOP.ADD_PRINT_RECT(213, 251, 64, 29, 0, 1);
+    LODOP.ADD_PRINT_RECT(213, 314, 56, 29, 0, 1);
+    LODOP.ADD_PRINT_RECT(241, -3, 186, 39, 0, 1);
+    LODOP.ADD_PRINT_RECT(279, -3, 186, 111, 0, 1);
+    LODOP.ADD_PRINT_RECT(241, 182, 105, 39, 0, 1);
+    LODOP.ADD_PRINT_RECT(279, 182, 188, 16, 0, 1);
+    LODOP.ADD_PRINT_RECT(333, 182, 188, 16, 0, 1);
+    LODOP.ADD_PRINT_RECT(241, 286, 84, 39, 0, 1);
+    LODOP.ADD_PRINT_RECT(294, 182, 105, 40, 0, 1);
+    LODOP.ADD_PRINT_RECT(294, 286, 84, 40, 0, 1);
+    LODOP.ADD_PRINT_RECT(348, 182, 188, 42, 0, 1);
+    LODOP.ADD_PRINT_RECT(393, -3, 373, 40, 0, 1);
+    LODOP.ADD_PRINT_RECT(432, -3, 373, 38, 0, 1);
+    LODOP.ADD_PRINT_RECT(469, -3, 253, 57, 0, 1);
+    LODOP.ADD_PRINT_RECT(469, 249, 121, 32, 0, 1);
+    LODOP.ADD_PRINT_RECT(500, 249, 121, 26, 0, 1);
+
+    LODOP.PREVIEW();
+
+}
+function CreateOneFormPage() {
+
+    var LODOP = getLodop();
+
+    // 顺丰logo
+    var sflogo = "<img src='data:img/jpg;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAABICAMAAACENkp0AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJ\r\nbWFnZVJlYWR5ccllPAAAAAxQTFRFMzMz/wAAAAAAAAAALV3LDwAAAAR0Uk5T////AEAqqfQAAASG\r\nSURBVHja3JvrgtsqDIQn4v3fud0kxkKaEcRxz7HXP9oswTYf6IZE0MrL+gW0S19yeICR67o4fGAU\r\nosPcBQQlxlXXBR8txoWXBYcwLogCYaRWrsuC2MfXXUDgtRr3AWlzHcBlZQt8nIUm43/U9r+eYTT9\r\newP6YrhRzp7nOsXOcck8sm8aHBKIHBDpiFMI//0OIkamViXcJmVvh95emdUMedBEGau7OshBUUFa\r\nvwSC9CGPkZmQulN80waCg7qbdQV8IuH6ZtPHXG1sQR8xPBheDRvIQStEboNAc3Nl6ZOp78ScwWID\r\nXiA4Zk+Z+cogjc41fO8oUUzY0/hCw7iMx0CsBgGT/kE3FYhVUhwacHxBdpIaJAJ/AeKfHBo8CA4Z\r\nrfFGBtLGbpVoQYKk2Q7TAzWxP7YAfOCAXhKwEAbDn9FbOBBwrxEaiDt8gkC8d5hs0N1IVncKMspz\r\nHjZmfiQmQojuIY+mGrFwrksgIshGBIEASSQtOMTwWpv72dz+sWhJJ82mEwuKkkDsBJAFZR/lm8AL\r\nM5pEYAeBErwVENA5WzC/JIwdAyXlD0Dt5I8Bom9xnVgwAoT+ayAoTd14s3RsoJ7ROIjfuYjo0LgB\r\nrkMU+ooYGB8C2VcEKp6tmldAvNxgAoIRF3nidt+D8HyqiWK8hXNfDOMnIC2Gln47AgwG8N3QlR3n\r\ngGC6sbL0gYCAe3Yjti58D+5FsArSZiA5fK9Amtg1Zr8St8dAtlPS8BwAQTTVExDQnT1IggICLNsY\r\nAfL4e1Xa7q/3n/6rrUdI8/SW4cb9OcyQACylwopUDOTxGEmuktImmyqTWabOcQ+QJkO4HeRxC5C0\r\nabnrisj4qAD5PCm2cA8+eGw0v8JnB2UvzW/PvNZ5+29B4h5PgvQdevQjj4kfeebPjoLAeXg8g8Ec\r\nI9IdHIoUCqyIj3SI8hzi/roEkLLN0dCobWp/IUhOG5W2fgDShhXpIDITIytfOhscSWKh5zsQK0De\r\nYoFpBc+EyEHNXQVie3r4LBAx5WliQYpoVRWQnlfIO8RDIKArUtYja6s1K7qmJY3JB1L9qkAwARGK\r\nUlgtGKwCeUeRBKSxzADCGGcT0xTIyxSvg+xRfNcRo1Lyg9NVEDlBV+avDoFYBCnPgrjtyPsfmBD3\r\nEZFPvUhgLqTjvwXZhLvSETe7YCBGrePCVv5ckDYFcd5/N3q5rACrwvhZpWcBZGa1wl5W3tn/gyr0\r\nyOr9QhHxRBBpunsUA/ccfBOK89LbSSDaCW02AN7R/4Ni6CkgW3ayKR1J+bPzy9M1yJYYsd0JjHFR\r\nB8FrxOBWizjEsw8MOJBnMbKphAC3Sq+BmzNPBAQ+XfRPjnDYe+Dy1I0tRL/OgK6k4xva6YdqMAaf\r\nKBITVdWgK/LCDqiNIfRnx5yay640CdL3q+vKbptuSJ9JN16vGmLeCX+wEEly2gCCGEnMQaDjC+82\r\nFEiInf6Do4AQ+yOeQ84FH4w99GGrGx/OJKet/Zrivud+73qA+dccKW+/55B/+zU/u1hkade7fvNP\r\nk0qYdtULi3Ug2MV/vvdHgAEAX4qP6lIQJP8AAAAASUVORK5CYII='/>"
+        // 快递单号 显示方式 XXX XXX XXX XXX
+        var expressWayBillNo = '580380776093';
+    // 寄件人
+    var sendName = '王诛魔';
+    // 寄件人电话
+    var sendMobilePhone = '15965456895';
+    // 寄件人地址
+    var sendAddress = '琅琊区飞虎路断罪中学';
+    // 收件人姓名
+    var receiveName = '李杀神';
+    // 收件人电话
+    var receiveMobilePhone = '13955555555';
+    // 收件人详细地址
+    var receiveAddress = '琅琊区飞虎路断罪小学';
+    // 托寄物信息
+    var orderItemInfo = '一条大河波浪宽，风吹稻花香两岸，我家就在岸上住';
+    // 业务类型
+    var serviceType = '电商特惠';
+    // 件数
+    var packageNum = 1;
+    // 托寄物数量
+    var itemNum = 10;
+    // 实际重量
+    var actualWeight = '2.8';
+    // 计费重量
+    var billedWeight = '2.8';
+    // 运费
+    var freightCharges = '27.0';
+    // 费用合计
+    var sumCharges = '28.0';
+    // 付款方式
+    var paymentType = '寄付';
+    // 月结卡号
+    var monthCard = '0224034269'
+        // 第三方地区
+        var thirdPartyZone = '巴布亚新几内亚';
+    // 收件员
+    var collector = '王收件';
+    // 寄件日期
+    var collectDate = '2000-01-01 11:11';
+    // 派件员
+    var deliverer = '刘派件';
+    // 派件日期
+    var deliverDate = '2019-07-31 12:12';
+    // 备注栏信息
+    var remarks = '要香菜，不要辣椒';
+    // 附加服务
+    var additionalService = "航母打蜡，卫星抛光，维修核潜艇"
+
+        LODOP.PRINT_INITA(6, 6, 800, 570, "顺丰热敏");
+    LODOP.SET_PRINT_MODE("PRINT_SETUP_PROGRAM", true);
+    LODOP.ADD_PRINT_IMAGE(11, 11, 185, 48, sflogo);
+    LODOP.SET_PRINT_STYLEA(0, "Stretch", 2);
+    LODOP.ADD_PRINT_BARCODE(7, 147, 220, 32, "128A", expressWayBillNo);
+    LODOP.SET_PRINT_STYLEA(0, "ShowBarText", 0);
+    LODOP.ADD_PRINT_TEXT(41, 148, 205, 20, expressWayBillNo);
+    LODOP.SET_PRINT_STYLEA(0, "FontName", "黑体");
+    LODOP.SET_PRINT_STYLEA(0, "FontSize", 12);
+    LODOP.SET_PRINT_STYLEA(0, "Alignment", 2);
+
+    LODOP.ADD_PRINT_TEXT(63, 2, 50, 25, "寄方：");
+    LODOP.ADD_PRINT_TEXT(63, 42, 208, 25, sendAddress + " " + sendName + " " + sendMobilePhone);
+    LODOP.SET_PRINT_STYLEA(0, "LineSpacing", -5);
+    LODOP.ADD_PRINT_TEXT(90, 2, 50, 25, "收方：");
+    LODOP.ADD_PRINT_TEXT(90, 42, 80, 25, receiveName);
+    LODOP.ADD_PRINT_TEXT(90, 127, 123, 25, receiveMobilePhone);
+    LODOP.ADD_PRINT_TEXT(106, 2, 248, 32, receiveAddress);
+    LODOP.ADD_PRINT_TEXT(141, 2, 120, 25, "托寄物信息");
+    LODOP.ADD_PRINT_TEXT(156, 2, 248, 40, orderItemInfo);
+
+    LODOP.ADD_PRINT_TEXT(63, 256, 46, 25, "原寄地");
+    LODOP.ADD_PRINT_TEXT(63, 297, 73, 25, "022");
+    LODOP.SET_PRINT_STYLEA(0, "FontName", "黑体");
+    LODOP.SET_PRINT_STYLEA(0, "FontSize", 16);
+    LODOP.ADD_PRINT_TEXT(90, 256, 114, 25, "目的地");
+    LODOP.ADD_PRINT_TEXT(101, 256, 114, 38, "750");
+    LODOP.SET_PRINT_STYLEA(0, "FontName", "黑体");
+    LODOP.SET_PRINT_STYLEA(0, "FontSize", 24);
+    LODOP.ADD_PRINT_TEXT(141, 256, 114, 25, "业务类型");
+    LODOP.ADD_PRINT_TEXT(156, 256, 114, 40, serviceType);
+    LODOP.SET_PRINT_STYLEA(0, "FontSize", 18);
+
+    LODOP.ADD_PRINT_TEXT(198, 2, 40, 19, "件数");
+    LODOP.SET_PRINT_STYLEA(0, "Alignment", 2);
+    LODOP.ADD_PRINT_TEXT(198, 43, 80, 19, "托寄物数量");
+    LODOP.SET_PRINT_STYLEA(0, "Alignment", 2);
+    LODOP.ADD_PRINT_TEXT(198, 125, 63, 19, "实际重量");
+    LODOP.SET_PRINT_STYLEA(0, "Alignment", 2);
+    LODOP.ADD_PRINT_TEXT(198, 190, 60, 19, "计费重量");
+    LODOP.SET_PRINT_STYLEA(0, "Alignment", 2);
+    LODOP.ADD_PRINT_TEXT(198, 253, 60, 19, "运费");
+    LODOP.SET_PRINT_STYLEA(0, "Alignment", 2);
+    LODOP.ADD_PRINT_TEXT(198, 315, 55, 19, "合计");
+    LODOP.SET_PRINT_STYLEA(0, "Alignment", 2);
+
+    LODOP.ADD_PRINT_TEXT(219, 2, 40, 25, packageNum);
+    LODOP.SET_PRINT_STYLEA(0, "Alignment", 2);
+    LODOP.ADD_PRINT_TEXT(219, 43, 80, 25, itemNum);
+    LODOP.SET_PRINT_STYLEA(0, "Alignment", 2);
+    LODOP.ADD_PRINT_TEXT(219, 125, 63, 25, actualWeight);
+    LODOP.SET_PRINT_STYLEA(0, "Alignment", 2);
+    LODOP.ADD_PRINT_TEXT(219, 190, 60, 25, billedWeight);
+    LODOP.SET_PRINT_STYLEA(0, "Alignment", 2);
+    LODOP.ADD_PRINT_TEXT(219, 253, 60, 25, freightCharges);
+    LODOP.SET_PRINT_STYLEA(0, "Alignment", 2);
+    LODOP.ADD_PRINT_TEXT(219, 315, 55, 25, sumCharges);
+    LODOP.SET_PRINT_STYLEA(0, "Alignment", 2);
+
+    LODOP.ADD_PRINT_TEXT(245, 2, 60, 25, "付款方式");
+    LODOP.ADD_PRINT_TEXT(245, 58, 50, 25, paymentType);
+    LODOP.ADD_PRINT_TEXT(245, 106, 76, 25, monthCard);
+    LODOP.ADD_PRINT_TEXT(261, 2, 100, 20, "第三方地区：");
+    LODOP.ADD_PRINT_TEXT(262, 68, 114, 20, thirdPartyZone);
+    LODOP.ADD_PRINT_TEXT(283, 2, 80, 25, "附加服务：");
+    LODOP.ADD_PRINT_TEXT(301, 2, 180, 89, additionalService);
+
+    LODOP.ADD_PRINT_TEXT(245, 186, 80, 25, "寄方签名：");
+    LODOP.ADD_PRINT_TEXT(245, 290, 80, 25, "收件员：");
+    LODOP.ADD_PRINT_TEXT(260, 290, 80, 25, collector);
+    LODOP.ADD_PRINT_TEXT(283, 186, 80, 15, "寄件日期：");
+    LODOP.ADD_PRINT_TEXT(283, 250, 120, 15, collectDate);
+    LODOP.ADD_PRINT_TEXT(299, 186, 80, 25, "收方签名：");
+    LODOP.ADD_PRINT_TEXT(299, 290, 80, 25, "派件员：");
+    LODOP.ADD_PRINT_TEXT(314, 290, 80, 25, deliverer);
+    LODOP.ADD_PRINT_TEXT(336, 186, 80, 15, "派件日期：");
+    LODOP.ADD_PRINT_TEXT(336, 250, 120, 15, deliverDate);
+    LODOP.ADD_PRINT_TEXT(352, 186, 80, 25, "备注栏：");
+    LODOP.ADD_PRINT_TEXT(366, 186, 184, 24, remarks);
+
+    LODOP.ADD_PRINT_TEXT(397, 2, 50, 25, "寄方：");
+    LODOP.ADD_PRINT_TEXT(397, 39, 330, 36, sendAddress + " " + sendName + " " + sendMobilePhone);
+    LODOP.SET_PRINT_STYLEA(0, "LineSpacing", -5);
+    LODOP.ADD_PRINT_TEXT(437, 2, 50, 25, "收方：");
+    LODOP.ADD_PRINT_TEXT(437, 39, 72, 25, receiveName);
+    LODOP.ADD_PRINT_TEXT(437, 130, 116, 25, receiveMobilePhone);
+    LODOP.ADD_PRINT_TEXT(452, 2, 367, 20, receiveAddress);
+    LODOP.ADD_PRINT_BARCODE(480, 20, 220, 26, "128A", expressWayBillNo);
+    LODOP.SET_PRINT_STYLEA(0, "ShowBarText", 0);
+    LODOP.ADD_PRINT_TEXT(508, 19, 205, 20, expressWayBillNo);
+    LODOP.SET_PRINT_STYLEA(0, "FontName", "黑体");
+    LODOP.SET_PRINT_STYLEA(0, "FontSize", 12);
+    LODOP.SET_PRINT_STYLEA(0, "Alignment", 2);
+    LODOP.ADD_PRINT_TEXT(474, 253, 80, 25, "费用合计：");
+    LODOP.ADD_PRINT_TEXT(474, 311, 58, 25, sumCharges);
+    LODOP.ADD_PRINT_TEXT(504, 253, 75, 23, "付款方式：");
+    LODOP.ADD_PRINT_TEXT(504, 311, 59, 23, paymentType);
+
+    LODOP.ADD_PRINT_RECT(0, -3, 135, 60, 0, 1);
+    LODOP.ADD_PRINT_RECT(0, 131, 239, 60, 0, 1);
+    LODOP.ADD_PRINT_RECT(59, -3, 255, 28, 0, 1);
+    LODOP.ADD_PRINT_RECT(59, 251, 119, 28, 0, 1);
+    LODOP.ADD_PRINT_RECT(86, -3, 255, 52, 0, 1);
+    LODOP.ADD_PRINT_RECT(86, 251, 119, 52, 0, 1);
+    LODOP.ADD_PRINT_RECT(137, -3, 255, 58, 0, 1);
+    LODOP.ADD_PRINT_RECT(137, 251, 119, 58, 0, 1);
+    LODOP.ADD_PRINT_RECT(194, -3, 46, 20, 0, 1);
+    LODOP.ADD_PRINT_RECT(194, 42, 83, 20, 0, 1);
+    LODOP.ADD_PRINT_RECT(194, 124, 66, 20, 0, 1);
+    LODOP.ADD_PRINT_RECT(194, 189, 63, 20, 0, 1);
+    LODOP.ADD_PRINT_RECT(194, 251, 64, 20, 0, 1);
+    LODOP.ADD_PRINT_RECT(194, 314, 56, 20, 0, 1);
+    LODOP.ADD_PRINT_RECT(213, -3, 46, 29, 0, 1);
+    LODOP.ADD_PRINT_RECT(213, 42, 83, 29, 0, 1);
+    LODOP.ADD_PRINT_RECT(213, 124, 66, 29, 0, 1);
+    LODOP.ADD_PRINT_RECT(213, 189, 63, 29, 0, 1);
+    LODOP.ADD_PRINT_RECT(213, 251, 64, 29, 0, 1);
+    LODOP.ADD_PRINT_RECT(213, 314, 56, 29, 0, 1);
+    LODOP.ADD_PRINT_RECT(241, -3, 186, 39, 0, 1);
+    LODOP.ADD_PRINT_RECT(279, -3, 186, 111, 0, 1);
+    LODOP.ADD_PRINT_RECT(241, 182, 105, 39, 0, 1);
+    LODOP.ADD_PRINT_RECT(279, 182, 188, 16, 0, 1);
+    LODOP.ADD_PRINT_RECT(333, 182, 188, 16, 0, 1);
+    LODOP.ADD_PRINT_RECT(241, 286, 84, 39, 0, 1);
+    LODOP.ADD_PRINT_RECT(294, 182, 105, 40, 0, 1);
+    LODOP.ADD_PRINT_RECT(294, 286, 84, 40, 0, 1);
+    LODOP.ADD_PRINT_RECT(348, 182, 188, 42, 0, 1);
+    LODOP.ADD_PRINT_RECT(393, -3, 373, 40, 0, 1);
+    LODOP.ADD_PRINT_RECT(432, -3, 373, 38, 0, 1);
+    LODOP.ADD_PRINT_RECT(469, -3, 253, 57, 0, 1);
+    LODOP.ADD_PRINT_RECT(469, 249, 121, 32, 0, 1);
+    LODOP.ADD_PRINT_RECT(500, 249, 121, 26, 0, 1);
+
+}
+
+function prn2_setup() {
+
+    CreateOneFormPage();
+    LODOP.SET_PRINT_MODE("PRINT_SETUP_PROGRAM", true);
+    if (LODOP.CVERSION)
+        CLODOP.On_Return = function (TaskID, Value) {
+            console.log(Value)
+        };
+    LODOP.PRINT_DESIGN()
+}
+function prn1_setup() {
+    this.CreateOneFormPage();
+    LODOP.PRINT_SETUP()
+}
+function prn1() {
+    let pick = {
+        pickNo: 'PK1601300000110'
+    }
+    let total = 30
+        LODOP = getLodop();
+    LODOP.PRINT_INIT("打印拣货单");
+    LODOP.SET_PRINT_MODE("PRINT_SETUP_PROGRAM", true);
+    LODOP.SET_PRINT_MODE("PROGRAM_CONTENT_BYVAR", true);
+    LODOP.ADD_PRINT_TEXT(30, 25, 90, 20, "拣货单号：");
+    LODOP.SET_PRINT_STYLEA(0, "Bold", 1);
+    LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
+    LODOP.ADD_PRINT_TEXT(57, 25, 90, 20, "波次号：");
+    LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
+    LODOP.ADD_PRINT_TEXT(85, 25, 90, 20, "收货人代码：");
+    LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
+    LODOP.ADD_PRINT_TEXT(115, 25, 90, 20, "订单数：");
+    LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
+    LODOP.ADD_PRINT_TEXT(147, 24, 90, 20, "拣货区域：");
+    LODOP.SET_PRINT_STYLEA(0, "Bold", 1);
+    LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
+    LODOP.ADD_PRINT_TEXT(179, 25, 90, 20, "复核方式：");
+    LODOP.SET_PRINT_STYLEA(0, "Bold", 1);
+    LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
+    LODOP.ADD_PRINT_TEXT(30, 114, 140, 20, pick.pickNo);
+    LODOP.SET_PRINT_STYLEA(0, "Bold", 1);
+    LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
+    LODOP.SET_PRINT_STYLEA(0, "ContentVName", "pick.pickNo");
+    LODOP.ADD_PRINT_TEXT(57, 114, 140, 20, "112222");
+    LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
+    LODOP.ADD_PRINT_TEXT(85, 114, 140, 20, "222");
+    LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
+    LODOP.ADD_PRINT_TEXT(115, 114, 140, 20, "2323");
+    LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
+    LODOP.ADD_PRINT_TEXT(147, 114, 140, 20, "4545454545");
+    LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
+    LODOP.SET_PRINT_STYLEA(0, "Bold", 1);
+    LODOP.ADD_PRINT_TEXT(179, 114, 140, 20, "45454454");
+    LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
+    LODOP.SET_PRINT_STYLEA(0, "Bold", 1);
+    LODOP.ADD_PRINT_BARCODE(38, 558, 182, 60, "Code39", "123456789012");
+    LODOP.ADD_PRINT_TEXT(30, 274, 90, 20, "货主：");
+    LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
+    LODOP.ADD_PRINT_TEXT(30, 363, 140, 20, "PK1252233562222");
+    LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
+    LODOP.ADD_PRINT_TEXT(57, 363, 140, 20, "PK1252233562222");
+    LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
+    LODOP.ADD_PRINT_TEXT(57, 274, 90, 20, "承运商");
+    LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
+    LODOP.ADD_PRINT_TEXT(85, 274, 90, 20, "收货人：");
+    LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
+    LODOP.ADD_PRINT_TEXT(85, 363, 140, 20, "PK1252233562222");
+    LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
+    LODOP.ADD_PRINT_TEXT(115, 363, 140, 20, "PK1252233562222");
+    LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
+    LODOP.ADD_PRINT_TEXT(115, 274, 90, 20, "品种数");
+    LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
+    LODOP.ADD_PRINT_TEXT(147, 273, 90, 20, "商品数");
+    LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
+    LODOP.ADD_PRINT_TEXT(147, 363, 140, 20, "PK1252233562222");
+    LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
+    LODOP.ADD_PRINT_TEXT(179, 363, 140, 20, "PK1252233562222");
+    LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
+    LODOP.ADD_PRINT_TEXT(179, 274, 90, 20, "打印时间：");
+    LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
+    LODOP.ADD_PRINT_TEXT(212, 575, 165, 22, "第#页/共&页");
+    LODOP.SET_PRINT_STYLEA(0, "Alignment", 3);
+    LODOP.SET_PRINT_STYLEA(0, "ItemType", 2);
+
+    LODOP.SET_PRINT_STYLEA(0, "Horient", 3);
+    LODOP.ADD_PRINT_LINE(245, 38, 245, 738, 0, 1);
+    LODOP.ADD_PRINT_TEXT(254, 39, 100, 20, "储位名称");
+    LODOP.SET_PRINT_STYLEA(0, "ItemType", 4);
+    LODOP.SET_PRINT_STYLEA(0, "Alignment", 2);
+    LODOP.ADD_PRINT_TEXT(254, 147, 100, 20, "商品编码");
+    LODOP.SET_PRINT_STYLEA(0, "Alignment", 2);
+    LODOP.ADD_PRINT_TEXT(254, 257, 100, 20, "商品名称");
+    LODOP.SET_PRINT_STYLEA(0, "Alignment", 2);
+    LODOP.ADD_PRINT_TEXT(254, 365, 100, 20, "规格");
+    LODOP.SET_PRINT_STYLEA(0, "Alignment", 2);
+    LODOP.ADD_PRINT_TEXT(254, 473, 100, 20, "商品条码");
+    LODOP.SET_PRINT_STYLEA(0, "Alignment", 2);
+    LODOP.ADD_PRINT_TEXT(254, 591, 67, 20, "应拣");
+    LODOP.SET_PRINT_STYLEA(0, "Alignment", 2);
+    LODOP.ADD_PRINT_TEXT(254, 666, 74, 20, "实拣");
+    LODOP.SET_PRINT_STYLEA(0, "Alignment", 2);
+    LODOP.ADD_PRINT_LINE(280, 38, 280, 738, 0, 1);
+    for (let i = 1; i <= total; i++) {
+        LODOP.ADD_PRINT_TEXT(254 + i * 35, 39, 100, 20, "4A");
+        LODOP.SET_PRINT_STYLEA(0, "Alignment", 2);
+        LODOP.ADD_PRINT_TEXT(254 + i * 35, 147, 100, 20, "33332");
+        LODOP.SET_PRINT_STYLEA(0, "Alignment", 2);
+        LODOP.ADD_PRINT_TEXT(254 + i * 35, 257, 100, 20, "可口可乐");
+        LODOP.SET_PRINT_STYLEA(0, "Alignment", 2);
+        LODOP.ADD_PRINT_TEXT(254 + i * 35, 365, 100, 20, "规格");
+        LODOP.SET_PRINT_STYLEA(0, "Alignment", 2);
+        LODOP.ADD_PRINT_TEXT(254 + i * 35, 473, 100, 20, "商品条码");
+        LODOP.SET_PRINT_STYLEA(0, "Alignment", 2);
+        LODOP.ADD_PRINT_TEXT(254 + i * 35, 591, 67, 20, "应拣");
+        LODOP.SET_PRINT_STYLEA(0, "Alignment", 2);
+        LODOP.ADD_PRINT_TEXT(254 + i * 35, 666, 74, 20, "实拣");
+        LODOP.SET_PRINT_STYLEA(0, "Alignment", 2);
+        LODOP.ADD_PRINT_LINE(280 + i * 35, 38, 280 + i * 35, 738, 0, 1);
+    }
+    LODOP.PREVIEW()
+}
+
+<  / script >
