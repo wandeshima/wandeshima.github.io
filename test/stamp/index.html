@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>邮票问题</title>
+    <script src="jquery-2.0.3.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <input id="level" placeholder="能记住几步？"/>
+        <button id="start">开始</button>
+        <a id="tips"></a>
+
+    </div>
+    <div id="r1" class="row">
+        <div id="1"></div>
+        <div id="2"></div>
+        <div id="3"></div>
+        <div id="4"></div>
+        <div id="5"></div>
+    </div>
+    <div id="r2" class="row">
+        <div id="6"></div>
+        <div id="7"></div>
+        <div id="8"></div>
+        <div id="9"></div>
+        <div id="10"></div>
+    </div>
+    <div id="r3" class="row">
+        <div id="11"></div>
+        <div id="12"></div>
+        <div id="13"></div>
+        <div id="14"></div>
+        <div id="15"></div>
+    </div>
+</div>
+
+<script>
+    var level;
+    var key = new Array(0);
+    var result;
+    var num;
+    var letsgo;
+    var canClick;
+    var init = function () {
+        clearInterval(timer);
+        $("#tips").text("");
+        $(".row div").addClass("cell");
+        level = $("#level").val();
+        level = !isNaN(level) && level > 1 ? level : 1;
+        result = new Array(0);
+        canClick = 0;
+        key.splice(0);
+        getRandomKey();
+
+        console.log(key);
+        num = 0;
+        letsgo = 1;
+        setTimeout(function () {
+            timer = setInterval(play, 1000);
+        },300);
+
+    };
+    var getRandomKey = function () {
+        var count = level;
+        while (count > 0) {
+            key.push(Math.ceil(15 * Math.random()));
+            count--;
+        }
+    };
+    var check = function (num, key, result) {
+        return Number(key[num]) === Number(result);
+    };
+
+    var timer = setInterval(function() {
+        play();
+    }, 1000);
+
+    var play = function () {
+        if (letsgo) {
+            pick(key[num]);
+            drop(key[num]);
+            num++;
+        }
+        if (num >= level) {
+            letsgo = 0;
+            canClick = 1;
+
+            setTimeout(function () {
+                clearInterval(timer);
+                num = 0;
+            }, 300);
+        }
+    };
+
+
+    var pick = function (id) {
+        $("#"+id).animate({
+            opacity:'0.4'
+        }, 100);
+    };
+    var drop = function (id) {
+        $("#"+id).animate({
+            opacity:'1'
+        }, 150);
+    };
+
+    $(".row div").click(function (e) {
+        var msg;
+        if (canClick) {
+            var r = $(e.target).context.id;
+            var num = result.length;
+            pick(r);
+            drop(r);
+            if (check(num, key, r)) {
+                result.push(r);
+                msg = "";
+                if (result.length >= level) {
+                    msg = "OK!";
+                    canClick = 0;
+                    $(".row div").removeClass("cell");
+                }
+            } else {
+                msg = "错了";
+                canClick = 0;
+                $(".row div").removeClass("cell");
+            }
+            $("#tips").text(msg);
+
+        }
+    });
+    $("#start").click(function(){
+        init();
+    })
+
+</script>
+
+<style>
+    body {
+        background: black;
+    }
+    .cell {
+        color: darkblue;;
+        background: darkblue;
+        height: 160px;
+        width: 120px;
+        margin: 8px 8px;
+    }
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 20px;
+    }
+    .row {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+    #tips {
+        color: greenyellow;
+    }
+</style>
+
+
+</body>
+</html>
